@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_outline">
+
+    <ImageView
+        android:id="@+id/catImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/journal_cat" />
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/catImage"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Product Name"
+            android:textColor="@color/black"
+            android:maxLines="1"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_below="@id/product_name"
+            android:id="@+id/product_details"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product details in two lines"
+            android:minLines="2"
+            android:maxLines="2"/>
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/product_details"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/product_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 4.5/5"
+            android:textStyle="bold"
+            android:textSize="14dp"
+            android:drawableLeft="@drawable/baseline_star_24" />
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$1100"
+                android:textSize="14dp"
+                android:textAlignment="center"
+                android:textColor="@color/blue"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/cartButton"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Add to Cart"
+            android:textAllCaps="false"
+            android:layout_margin="5dp"
+            android:background="@color/orange"
+            android:textColor="@color/white"
+            android:layout_below="@id/linearLayout"/>
+
+    </RelativeLayout>
+

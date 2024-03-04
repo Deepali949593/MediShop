@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="10dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:background="#F6DFD8"
+            app:cardCornerRadius="8dp" />
+
+    <ImageView
+        android:id="@+id/catImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/cat_7" />
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/catImage"
+        android:layout_toLeftOf="@id/arrowImage"
+        android:text="Winter Store"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:gravity="center"
+        />
+        <TextView
+            android:id="@+id/details"
+            android:layout_below="@id/heading"
+            android:layout_toLeftOf="@id/arrowImage"
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/catImage"
+            android:text="Winter Store details"
+            android:gravity="center"
+            />
+        <ImageView
+            android:id="@+id/arrowImage"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+
+            android:layout_marginTop="50dp"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/baseline_arrow_right_24" />
+    </RelativeLayout>
+
+</LinearLayout>

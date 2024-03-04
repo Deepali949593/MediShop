@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+        <ImageView
+            android:id="@+id/catImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/journal_cat" />
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/catImage"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toLeftOf="@id/deleteImage"
+            android:text="Product Namekkkkkkkkkkkkkkkkklllll"
+            android:textColor="@color/black"
+            android:maxLines="1"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/minusImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_toRightOf="@id/catImage"
+            android:layout_below="@id/product_price"
+            android:src="@drawable/minus_24_24" />
+        <ImageView
+            android:id="@+id/plusImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_toRightOf="@id/product_qty"
+            android:layout_below="@id/product_price"
+            android:src="@drawable/plus_icon" />
+
+            <TextView
+                android:id="@+id/product_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_toRightOf="@id/minusImage"
+                android:layout_below="@id/product_price"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$1100"
+                android:layout_below="@id/product_name"
+                android:layout_toRightOf="@id/catImage"
+                android:padding="5dp"
+                android:textSize="14dp"
+                android:textAlignment="center"
+                android:textColor="@color/orange"
+                android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/deleteImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_margin="10dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/baseline_delete_24" />
+
+    </RelativeLayout>
+

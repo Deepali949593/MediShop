@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "573365580543",
+    "project_id": "medishop-11a20",
+    "storage_bucket": "medishop-11a20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573365580543:android:3949d851e78392a917d2ca",
+        "android_client_info": {
+          "package_name": "com.example.edupapers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuthbIuGzYHuPhorcQ5h296dMkb8xg6h8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573365580543:android:038b900af00be7a117d2ca",
+        "android_client_info": {
+          "package_name": "com.example.medishop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuthbIuGzYHuPhorcQ5h296dMkb8xg6h8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
