@@ -14,22 +14,21 @@ import com.example.medishop.RoomDB.ProductDb.Product
 import com.example.medishop.RoomDB.ProductDb.ProductDao
 import com.example.medishop.RoomDB.ProductDb.ProductDatabase
 import com.example.medishop.Session.SessionManager
-import java.util.Locale
+import java.util.*
 
 class SearchFragment : Fragment() {
-    var view: View? = null
-    var recyclerView: RecyclerView? = null
-    var searchBarText: SearchView? = null
-    private var productDatabase: ProductDatabase? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var searchBarText: SearchView
     private var productDao: ProductDao? = null
-    var myProducts: List<Product>? = null
-    var customAdapter: ProductAdapter? = null
+    private var myProducts: List<Product> = ArrayList()
+    private var customAdapter: ProductAdapter? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        view = inflater.inflate(R.layout.fragment_search, container, false)
-        initCategory()
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
+        initCategory(view)
         searchBarText = view.findViewById(R.id.searchBar)
         searchBarText.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -46,29 +45,29 @@ class SearchFragment : Fragment() {
 
     private fun filter(newText: String) {
         val filteredList: MutableList<Product> = ArrayList()
-        for (product in myProducts!!) {
+        for (product in myProducts) {
             if (product.pName.lowercase(Locale.getDefault())
                     .contains(newText.lowercase(Locale.getDefault()))
             ) {
                 filteredList.add(product)
             }
         }
-        customAdapter!!.filteredList(filteredList)
+        customAdapter?.filteredList(filteredList)
     }
 
-    private fun initCategory() {
-        recyclerView = view!!.findViewById(R.id.catRecyclerView)
+    private fun initCategory(view: View) {
+        recyclerView = view.findViewById(R.id.catRecyclerView)
         val glm = LinearLayoutManager(context)
-        glm.orientation = LinearLayoutManager.VERTICAL // set Horizontal Orientation
-        recyclerView.setLayoutManager(glm)
-        productDatabase = ProductDatabase.getInstance(context)
+        glm.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = glm
+        val productDatabase = ProductDatabase.getInstance(requireContext())
         productDao = productDatabase.dao
-        if (productDao.allProduct.size == 0) {
-            val sessionManager = SessionManager(context)
+        if (productDao?.allProduct?.size == 0) {
+            val sessionManager = SessionManager(requireContext())
             sessionManager.addProducts()
         }
-        myProducts = productDao.allProduct
-        customAdapter = ProductAdapter(context!!, productDao.allProduct)
-        recyclerView.setAdapter(customAdapter)
+        myProducts = productDao?.allProduct ?: emptyList()
+        customAdapter = ProductAdapter(requireContext(), myProducts)
+        recyclerView.adapter = customAdapter
     }
 }

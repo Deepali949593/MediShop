@@ -21,27 +21,27 @@ import com.example.medishop.RoomDB.ProductDb.ProductDatabase
 import com.example.medishop.Session.SessionManager
 
 class ProductDetailsFragment : Fragment() {
-    var view: View? = null
-    var recyclerView: RecyclerView? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var cartDao: CartDao
     private var productDatabase: ProductDatabase? = null
     private var productDao: ProductDao? = null
-    private var cartDao: CartDao? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        view = inflater.inflate(R.layout.fragment_product_details, container, false)
-        initCategory()
+        val view = inflater.inflate(R.layout.fragment_product_details, container, false)
+        initCategory(view)
         val catImage = view.findViewById<ImageView>(R.id.catImage)
         val product_name = view.findViewById<TextView>(R.id.product_name)
         val product_details = view.findViewById<TextView>(R.id.product_details)
         val product_price = view.findViewById<TextView>(R.id.product_price)
         val product_rating = view.findViewById<TextView>(R.id.product_rating)
         val cartButton = view.findViewById<AppCompatButton>(R.id.cartButton)
-        cartDao = CartDatabase.getInstance(context).dao
-        val res = context!!.resources
+        this.cartDao = CartDatabase.getInstance(requireContext())?.dao!!
+        val res = requireContext().resources
         val mDrawableName = requireArguments()["image"].toString()
-        val resID = res.getIdentifier(mDrawableName, "drawable", context!!.packageName)
+        val resID = res.getIdentifier(mDrawableName, "drawable", requireContext().packageName)
         val drawable = res.getDrawable(resID)
         catImage.setImageDrawable(drawable)
         product_name.text = requireArguments()["title"].toString()
@@ -61,24 +61,24 @@ class ProductDetailsFragment : Fragment() {
                         "1"
                     )
                 )
-                Toast.makeText(context, "Successfully added to cart!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Successfully added to cart!!", Toast.LENGTH_SHORT).show()
             }
         }
         return view
     }
 
-    private fun initCategory() {
-        recyclerView = view!!.findViewById(R.id.catRecyclerView)
-        val glm = LinearLayoutManager(context)
+    private fun initCategory(view: View) {
+        recyclerView = view.findViewById(R.id.catRecyclerView)
+        val glm = LinearLayoutManager(requireContext())
         glm.orientation = LinearLayoutManager.HORIZONTAL // set Horizontal Orientation
-        recyclerView.setLayoutManager(glm)
-        productDatabase = ProductDatabase.getInstance(context)
-        productDao = productDatabase.dao
-        if (productDao.allProduct.size == 0) {
-            val sessionManager = SessionManager(context)
+        recyclerView.layoutManager = glm
+        productDatabase = ProductDatabase.getInstance(requireContext())
+        productDao = productDatabase?.dao
+        if (productDao?.allProduct?.size == 0) {
+            val sessionManager = SessionManager(requireContext())
             sessionManager.addProducts()
         }
-        val customAdapter = ProductSimilarAdapter(context!!, productDao.allProduct)
-        recyclerView.setAdapter(customAdapter)
+        val customAdapter = ProductSimilarAdapter(requireContext(), productDao?.allProduct)
+        recyclerView.adapter = customAdapter
     }
 }

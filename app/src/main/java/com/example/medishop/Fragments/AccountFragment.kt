@@ -27,7 +27,7 @@ class AccountFragment : Fragment(), View.OnClickListener {
     private var sessionManager: SessionManager? = null
     private var userDatabase: UserDatabase? = null
     private var userDAO: UserDAO? = null
-    private var user: HashMap<String, String> = HashMap()
+    private var user: HashMap<String, String?> = HashMap()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,7 @@ class AccountFragment : Fragment(), View.OnClickListener {
         logoutButton?.setOnClickListener(this)
 
         sessionManager = SessionManager(requireContext())
-        user = sessionManager?.userDetails ?: HashMap<String, String>()
+        user = sessionManager?.userDetails ?: HashMap<String, String?>()
         nameEditText?.setText(user[SessionManager.KEY_NAME])
         phoneEditText?.setText(user[SessionManager.KEY_PHONE])
         emailEditText?.setText(user[SessionManager.KEY_EMAIL])

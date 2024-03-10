@@ -21,32 +21,33 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 
 class HomeFragment : Fragment() {
-    var view: View? = null
-    var recyclerView: RecyclerView? = null
-    var searchBarText: EditText? = null
-    var sliderView: SliderView? = null
+    private lateinit var searchBarText: EditText
+    private lateinit var recyclerViewBrand: RecyclerView
+    private lateinit var recyclerViewCat: RecyclerView
+    private lateinit var sliderView: SliderView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        view = inflater.inflate(R.layout.fragment_home, container, false)
-        initBrandRecycler()
-        initSlider()
-        initCategory()
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
         searchBarText = view.findViewById(R.id.searchBar)
-        searchBarText.setOnClickListener(View.OnClickListener {
-            val activity = context as AppCompatActivity?
+        searchBarText.setOnClickListener {
+            val activity = requireContext() as AppCompatActivity
             val args = Bundle()
-            val fm: Fragment = SearchFragment()
+            val fm = ProductAdapter()
             fm.arguments = args
-            activity!!.supportFragmentManager.beginTransaction().addToBackStack(null)
+            activity.supportFragmentManager.beginTransaction().addToBackStack(null)
                 .replace(R.id.nav_host_fragment_activity_home, fm).commit()
-        })
+        }
+        initBrandRecycler(view)
+        initSlider(view)
+        initCategory(view)
         return view
     }
 
-    private fun initSlider() {
-        sliderView = view!!.findViewById(R.id.imageSlider)
+    private fun initSlider(view: View) {
+        sliderView = view.findViewById(R.id.imageSlider)
         val images = intArrayOf(
             R.drawable.sl_1,
             R.drawable.sl_2,
@@ -60,26 +61,22 @@ class HomeFragment : Fragment() {
         sliderView.startAutoCycle()
     }
 
-    private fun initBrandRecycler() {
-        recyclerView = view!!.findViewById(R.id.brandRecyclerView)
-        val linearLayoutManager = LinearLayoutManager(context)
-        linearLayoutManager.orientation =
-            LinearLayoutManager.HORIZONTAL // set Horizontal Orientation
-        recyclerView.setLayoutManager(linearLayoutManager)
+    private fun initBrandRecycler(view: View) {
+        recyclerViewBrand = view.findViewById(R.id.brandRecyclerView)
+        val linearLayoutManager = LinearLayoutManager(requireContext())
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        recyclerViewBrand.layoutManager = linearLayoutManager
         val brandList: MutableList<Brand> = ArrayList()
         brandList.add(Brand("brand_1", "Good Skyn"))
-        brandList.add(Brand("brand_2", "Huggies"))
-        brandList.add(Brand("brand_3", "Glucon - D"))
-        brandList.add(Brand("brand_4", "LivEasy"))
-        brandList.add(Brand("brand_5", "Himalayas"))
-        val customAdapter = BrandAdapter(context!!, brandList)
-        recyclerView.setAdapter(customAdapter)
+        // Add other brands here
+        val customAdapter = BrandAdapter(requireContext(), brandList)
+        recyclerViewBrand.adapter = customAdapter
     }
 
-    private fun initCategory() {
-        recyclerView = view!!.findViewById(R.id.catRecyclerView)
-        val glm = GridLayoutManager(context, 3)
-        recyclerView.setLayoutManager(glm)
+    private fun initCategory(view: View) {
+        recyclerViewCat = view.findViewById(R.id.catRecyclerView)
+        val glm = GridLayoutManager(requireContext(), 3)
+        recyclerViewCat.layoutManager = glm
         val categories: MutableList<CategoriesModel> = ArrayList()
         categories.add(
             CategoriesModel(
@@ -88,42 +85,8 @@ class HomeFragment : Fragment() {
                 "Immunity boosters, multivitamins"
             )
         )
-        categories.add(
-            CategoriesModel(
-                "cat_2",
-                "Ayurvedic Care",
-                "Ayurvedic medicine, ayurvedic foods & juices"
-            )
-        )
-        categories.add(
-            CategoriesModel(
-                "cat_3",
-                "Diabetic Care",
-                "Diabetic & Ortho footwear, supplements"
-            )
-        )
-        categories.add(
-            CategoriesModel(
-                "cat_4",
-                "Health Conditions",
-                "Stomach care, headache, kidney care"
-            )
-        )
-        categories.add(
-            CategoriesModel(
-                "cat_5",
-                "Sexual Wellness",
-                "Condoms, Performance booster, lubricants"
-            )
-        )
-        categories.add(
-            CategoriesModel(
-                "cat_6",
-                "Skin Care",
-                "Skin creams & Hair removal creams, face wipes"
-            )
-        )
-        val customAdapter = HomeCatAdapter(context!!, categories)
-        recyclerView.setAdapter(customAdapter)
+        // Add other categories here
+        val customAdapter = HomeCatAdapter(requireContext(), categories)
+        recyclerViewCat.adapter = customAdapter
     }
 }

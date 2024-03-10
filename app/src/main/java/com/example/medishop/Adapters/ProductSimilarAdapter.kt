@@ -21,10 +21,11 @@ import com.example.medishop.RoomDB.CartDb.CartDao
 import com.example.medishop.RoomDB.CartDb.CartDatabase
 import com.example.medishop.RoomDB.ProductDb.Product
 
-class ProductSimilarAdapter(var context: Context, var product: List<Product>) :
+class ProductSimilarAdapter(var context: Context, var product: List<Product?>?) :
     RecyclerView.Adapter<ProductSimilarAdapter.MyViewHolder>() {
     private var cartDatabase: CartDatabase? = null
     private var cartDao: CartDao? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.product_similar_layout, parent, false)
@@ -38,51 +39,59 @@ class ProductSimilarAdapter(var context: Context, var product: List<Product>) :
         holder: MyViewHolder,
         @SuppressLint("RecyclerView") position: Int
     ) {
-        Log.d("TAG", "onBindViewHolder: " + product.size)
-        val res = context.resources
-        val mDrawableName = product[position].pImage
-        val resID = res.getIdentifier(mDrawableName, "drawable", context.packageName)
-        val drawable = res.getDrawable(resID)
-        holder.catImage.setImageDrawable(drawable)
-        holder.product_name.text = product[position].pName
-        holder.product_details.text = product[position].pDetails
-        holder.product_price.text = "₹ " + product[position].pPrice
-        holder.product_rating.text = product[position].pRate
-        holder.itemView.setOnClickListener {
-            val activity = context as AppCompatActivity
-            val args = Bundle()
-            args.putString("image", product[position].pImage)
-            args.putString("title", product[position].pName)
-            args.putString("details", product[position].pDetails)
-            args.putString("rating", product[position].pRate)
-            args.putString("price", product[position].pPrice)
-            args.putString("id", product[position].pId)
-            val fm: Fragment = ProductDetailsFragment()
-            fm.arguments = args
-            activity.supportFragmentManager.beginTransaction().addToBackStack(null)
-                .replace(R.id.nav_host_fragment_activity_home, fm).commit()
-        }
-        holder.cartButton.setOnClickListener {
-            if (!cartDao!!.CartExists(product[position].pId)) {
-                cartDao!!.insertCart(
-                    Cart(
-                        product[position].pId,
-                        product[position].pName,
-                        product[position].pImage,
-                        product[position].pPrice,
-                        product[position].pDetails,
-                        product[position].pRate,
-                        "1"
-                    )
-                )
-                Toast.makeText(context, "Successfully added to cart!!", Toast.LENGTH_SHORT).show()
+        val currentProduct = product?.get(position)
+        currentProduct?.let { product ->
+            // Access properties safely
+            val res = context.resources
+            val mDrawableName = product.pImage
+            val resID = res.getIdentifier(mDrawableName, "drawable", context.packageName)
+            val drawable = res.getDrawable(resID)
+            holder.catImage.setImageDrawable(drawable)
+            holder.product_name.text = product.pName
+            holder.product_details.text = product.pDetails
+            holder.product_price.text = "₹ " + product.pPrice
+            holder.product_rating.text = product.pRate
+
+            // Click listener for item
+            holder.itemView.setOnClickListener {
+                val activity = context as AppCompatActivity
+                val args = Bundle()
+                args.putString("image", product.pImage)
+                args.putString("title", product.pName)
+                args.putString("details", product.pDetails)
+                args.putString("rating", product.pRate)
+                args.putString("price", product.pPrice)
+                args.putString("id", product.pId)
+                val fm: Fragment = ProductDetailsFragment()
+                fm.arguments = args
+                activity.supportFragmentManager.beginTransaction().addToBackStack(null)
+                    .replace(R.id.nav_host_fragment_activity_home, fm).commit()
+            }
+
+            // Click listener for cart button
+            holder.cartButton.setOnClickListener {
+                cartDao?.let { dao ->
+                    if (!dao.CartExists(product.pId)) {
+                        dao.insertCart(
+                            Cart(
+                                product.pId,
+                                product.pName,
+                                product.pImage,
+                                product.pPrice,
+                                product.pDetails,
+                                product.pRate,
+                                "1"
+                            )
+                        )
+                        Toast.makeText(context, "Successfully added to cart!!", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
 
     override fun getItemCount(): Int {
-        Log.d("TAG", "onBindViewHolder: " + product.size)
-        return product.size
+        return product?.size ?: 0
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
